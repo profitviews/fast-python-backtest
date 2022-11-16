@@ -14,7 +14,7 @@ jobs:
               name: "Ubuntu GCC-12",
               os: ubuntu-20.04,
               compiler: { type: GCC, version: 11, conan: "gcc", cc: "gcc-11", cxx: "g++-11", std: 20 },
-              lib: "libstdc++12"
+              lib: "libstdc++11"
             }
           - {
               name: "Ubuntu Clang-14 + libc++",
@@ -60,8 +60,8 @@ jobs:
         with:
           version: ${{ matrix.settings.compiler.version }}
           platform: x64
-      - name: Install Latest libstdC++12
-        if: matrix.settings.compiler.type == 'CLANG' && matrix.settings.lib == 'libstdc++12'
+      - name: Install Latest libstdC++11
+        if: matrix.settings.compiler.type == 'CLANG' && matrix.settings.lib == 'libstdc++11'
         uses: egor-tensin/setup-gcc@v1
         with:
           version: 12
