@@ -1,0 +1,10 @@
+add_library(test_parquet)
+target_sources(test_parquet
+    PRIVATE
+        main.cpp
+)
+target_link_libraries(test_parquet
+    PRIVATE
+        arrow::arrow
+        Boost::boost
+)
