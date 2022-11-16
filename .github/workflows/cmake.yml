@@ -60,11 +60,11 @@ jobs:
         with:
           version: ${{ matrix.settings.compiler.version }}
           platform: x64
-      - name: Install Latest libstdC++11
-        if: matrix.settings.compiler.type == 'CLANG' && matrix.settings.lib == 'libstdc++11'
+      - name: Install Latest libstdC++12
+        if: matrix.settings.compiler.type == 'CLANG' && matrix.settings.lib == 'libstdc++12'
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: 12
           platform: x64
       - name: Install Clang
         if: matrix.settings.compiler.type == 'CLANG'
