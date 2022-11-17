@@ -6,6 +6,9 @@ arrow/10.0.0
 boost/1.80.0
 fmt/9.1.0
 
+[options]
+arrow:parquet=True
+
 [generators]
 cmake_find_package
 virtualenv
