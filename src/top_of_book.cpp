@@ -56,6 +56,13 @@ int main(int argc, char* argv[])
         PARQUET_THROW_NOT_OK(reader->ReadTable(&table));
         std::cout << "Loaded " << table->num_rows() << " rows in " << table->num_columns()
                     << " columns." << std::endl;
+
+        const auto& schema{table->schema()};
+        profitview::fmt_ns::print("Field names: \n");
+        for (int i = 0; i < schema->num_fields(); ++i) {
+            const auto& field{schema->field(i)};
+            profitview::fmt_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
+        }
     }
 
 }
