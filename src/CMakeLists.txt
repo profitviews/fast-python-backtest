@@ -1,10 +1,12 @@
-add_library(test_parquet)
-target_sources(test_parquet
-    PRIVATE
-        main.cpp
-)
-target_link_libraries(test_parquet
-    PRIVATE
+
+add_executable(top_of_book top_of_book.cpp)
+target_link_libraries(top_of_book
+    INTERFACE
         arrow::arrow
+        arrow::parquet
         Boost::boost
 )
+
+include_directories(${arrow_INCLUDE_DIRS})
+
+
