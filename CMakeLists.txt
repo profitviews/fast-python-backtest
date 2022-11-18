@@ -12,7 +12,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cm
 
 find_package(Boost REQUIRED)
 find_package(fmt REQUIRED)
-find_package(Arrow REQUIRED parquet)
+find_package(Arrow REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
