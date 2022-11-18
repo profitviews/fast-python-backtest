@@ -8,12 +8,10 @@ boost/1.80.0
 fmt/9.1.0
 openssl/1.1.1s
 
-[options]
-arrow:parquet=True
-
 [generators]
 cmake_find_package
 virtualenv
 
 [options]
 arrow:parquet=True
+arrow:with_snappy=True

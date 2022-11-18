@@ -49,13 +49,13 @@ int main(int argc, char* argv[])
 
         std::shared_ptr<arrow::io::ReadableFile> infile;
         PARQUET_ASSIGN_OR_THROW(infile, arrow::io::ReadableFile::Open(file, arrow::default_memory_pool()));
+        std::unique_ptr<parquet::arrow::FileReader> reader;
+        PARQUET_THROW_NOT_OK(
+            parquet::arrow::OpenFile(infile, arrow::default_memory_pool(), &reader));
+        std::shared_ptr<arrow::Table> table;
+        PARQUET_THROW_NOT_OK(reader->ReadTable(&table));
+        std::cout << "Loaded " << table->num_rows() << " rows in " << table->num_columns()
+                    << " columns." << std::endl;
     }
 
-//   std::unique_ptr<parquet::arrow::FileReader> reader;
-//   PARQUET_THROW_NOT_OK(
-//       parquet::arrow::OpenFile(infile, arrow::default_memory_pool(), &reader));
-//   std::shared_ptr<arrow::Table> table;
-//   PARQUET_THROW_NOT_OK(reader->ReadTable(&table));
-//   std::cout << "Loaded " << table->num_rows() << " rows in " << table->num_columns()
-//             << " columns." << std::endl;
 }
