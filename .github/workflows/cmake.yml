@@ -2,6 +2,10 @@ name: CMake
 
 on: [push]
 
+permissions:
+  contents: write
+  pull-requests: write  
+
 jobs:
   build:
     name: ${{ matrix.settings.name }} ${{ matrix.configuration }}
