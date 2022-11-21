@@ -33,3 +33,5 @@
 
 build*/
 out/
+.venv/
+data/
