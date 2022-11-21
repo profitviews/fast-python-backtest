@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     if (result)
         return result.value();
 
-    for (auto& file : options.parquetFile)
+    for (auto const& file : options.parquetFile)
     {
         print_ns::print("Reading {} at one\n", file);
 
