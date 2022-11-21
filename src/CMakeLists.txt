@@ -24,3 +24,27 @@ set_target_properties(read_parquet
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+add_executable(simple_thread_pool)
+target_sources(simple_thread_pool
+    PRIVATE
+        enum.hpp
+        format.hpp
+        program_options.hpp
+        simple_thread_pool.cpp
+)
+
+target_link_libraries(simple_thread_pool
+    PUBLIC
+        Boost::boost
+        Boost::log
+        Boost::program_options
+        fmt::fmt
+)
+
+set_target_properties(simple_thread_pool
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
