@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     if (result)
         return result.value();
 
-    fmt_ns::print("Pool will have {} threads\n", options.number_of_threads);
+    print_ns::print("Pool will have {} threads\n", options.number_of_threads);
 
     boost::asio::thread_pool pool{static_cast<size_t>(options.number_of_threads)};
 
