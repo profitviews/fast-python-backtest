@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
     for(auto i: boost::irange(options.number_of_threads))
     {
-        fmt_ns::print("Adding thread {}\n", i + 1);
+        print_ns::print("Adding thread {}\n", i + 1);
         boost::asio::post(pool, [i]()
         { 
             fmt_ns::print("Sleeping for {} seconds\n", i + 1);
