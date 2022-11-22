@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
         print_ns::print("Adding thread {}\n", i + 1);
         boost::asio::post(pool, [i]()
         { 
-            fmt_ns::print("Sleeping for {} seconds\n", i + 1);
+            print_ns::print("Sleeping for {} seconds\n", i + 1);
             std::this_thread::sleep_for(std::chrono::milliseconds((i+1)*1000));
             fmt_ns::print("Finishing thread {}\n", i + 1);
         });
