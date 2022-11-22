@@ -1,12 +1,14 @@
 #include "print.hpp"
 #include "program_options.hpp"
 
+#include <boost/asio/post.hpp>
+#include <boost/asio/thread_pool.hpp>
 #include <boost/program_options.hpp>
+#include <boost/range/irange.hpp>
 
+#include <fmt/core.h>
 #include <thread>
-#include <exception>
-#include <filesystem>
-#include <memory>
+#include <chrono>
 
 namespace profitview
 {
@@ -25,20 +27,6 @@ struct ProgramArgs
     }
 };
 
-class ThreadPool
-{
-public:
-    ThreadPool(): thread_count_{0} {}
-    ThreadPool(int thread_count)
-    : thread_count_{thread_count} 
-    {
-    }
-    int size() const { return thread_count_; }
-private:
-    std::vector<std::jthread> threads_;
-    int thread_count_;
-};
-
 }    // namespace profitview
 
 int main(int argc, char* argv[])
@@ -51,8 +39,19 @@ int main(int argc, char* argv[])
 
     fmt_ns::print("Pool will have {} threads\n", options.number_of_threads);
 
-    ThreadPool pool{options.number_of_threads};
+    boost::asio::thread_pool pool{static_cast<size_t>(options.number_of_threads)};
 
-    fmt_ns::print("Currently {} threads in pool\n", pool.size());
+    fmt_ns::print("Currently {} threads in pool\n", options.number_of_threads);
 
+    for(auto i: boost::irange(options.number_of_threads))
+    {
+        fmt_ns::print("Adding thread {}\n", i + 1);
+        boost::asio::post(pool, [i]()
+        { 
+            fmt_ns::print("Sleeping for {} seconds\n", i + 1);
+            std::this_thread::sleep_for(std::chrono::milliseconds((i+1)*1000));
+            fmt_ns::print("Finishing thread {}\n", i + 1);
+        });
+    }
+    pool.wait();
 }
