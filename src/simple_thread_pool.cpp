@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
     boost::asio::thread_pool pool{static_cast<size_t>(options.number_of_threads)};
 
-    fmt_ns::print("Currently {} threads in pool\n", options.number_of_threads);
+    print_ns::print("Currently {} threads in pool\n", options.number_of_threads);
 
     for(auto i: boost::irange(options.number_of_threads))
     {
