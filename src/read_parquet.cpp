@@ -55,13 +55,13 @@ int main(int argc, char* argv[])
         std::shared_ptr<arrow::Table> table;
         PARQUET_THROW_NOT_OK(reader->ReadTable(&table));
 
-        fmt_ns::print("Loaded {} rows in {} columns.\n", table->num_rows(), table->num_columns());
+        print_ns::print("Loaded {} rows in {} columns.\n", table->num_rows(), table->num_columns());
 
         const auto& schema{table->schema()};
-        fmt_ns::print("Field names: \n");
+        print_ns::print("Field names: \n");
         for (int i = 0; i < schema->num_fields(); ++i) {
             const auto& field{schema->field(i)};
-            fmt_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
+            print_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
         }
     }
 

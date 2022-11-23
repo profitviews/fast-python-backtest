@@ -102,6 +102,7 @@ jobs:
             conan profile update settings.compiler.version=${{ matrix.settings.compiler.version }} default
             conan profile update settings.compiler.libcxx=${{ matrix.settings.lib }} default
           fi
+          conan profile update settings.build_type=${{ matrix.configuration }} default
           conan profile show default
       - name: Configure Install
         shell: bash
