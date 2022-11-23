@@ -8,6 +8,7 @@
 #include <parquet/exception.h>
 
 #include <boost/program_options.hpp>
+#include <boost/range/irange.hpp>
 
 #include <exception>
 #include <filesystem>
@@ -59,7 +60,7 @@ int main(int argc, char* argv[])
 
         const auto& schema{table->schema()};
         print_ns::print("Field names: \n");
-        for (int i = 0; i < schema->num_fields(); ++i) {
+        for (auto i: boost::irange(schema->num_fields())) {
             const auto& field{schema->field(i)};
             print_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
         }
