@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     if (result)
         return result.value();
 
-    for (auto& file : options.parquetFile)
+    for (auto const& file : options.parquetFile)
     {
         print_ns::print("Reading {} at one\n", file);
 
@@ -56,13 +56,13 @@ int main(int argc, char* argv[])
         std::shared_ptr<arrow::Table> table;
         PARQUET_THROW_NOT_OK(reader->ReadTable(&table));
 
-        fmt_ns::print("Loaded {} rows in {} columns.\n", table->num_rows(), table->num_columns());
+        print_ns::print("Loaded {} rows in {} columns.\n", table->num_rows(), table->num_columns());
 
         const auto& schema{table->schema()};
-        fmt_ns::print("Field names: \n");
+        print_ns::print("Field names: \n");
         for (auto i: boost::irange(schema->num_fields())) {
             const auto& field{schema->field(i)};
-            fmt_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
+            print_ns::print("Field {}: '{}' has type {}\n", i + 1, field->name(), field->type()->name());
         }
     }
 

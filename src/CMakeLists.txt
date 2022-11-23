@@ -9,13 +9,23 @@ target_sources(read_parquet
 )
 
 target_link_libraries(read_parquet
-    PUBLIC
+    PRIVATE
         arrow::arrow
         arrow::parquet
         Boost::boost
         Boost::log
         Boost::program_options
         fmt::fmt
+)
+
+target_compile_options(read_parquet
+    PRIVATE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>
+)
+
+target_link_options(read_parquet
+    PRIVATE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++ -lc++abi>    
 )
 
 set_target_properties(read_parquet
