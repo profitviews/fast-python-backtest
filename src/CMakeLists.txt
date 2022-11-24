@@ -79,3 +79,18 @@ set_target_properties(simple_pybind11_test
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+pybind11_add_module(simple_pybind11_parquet_test simple_pybind11_parquet_test.cpp)
+
+target_link_libraries(simple_pybind11_parquet_test
+    PRIVATE
+        profitview::profitview
+)
+
+
+set_target_properties(simple_pybind11_parquet_test
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
