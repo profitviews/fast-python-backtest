@@ -6,7 +6,6 @@
 #include <boost/program_options.hpp>
 #include <boost/range/irange.hpp>
 
-#include <fmt/core.h>
 #include <thread>
 #include <chrono>
 

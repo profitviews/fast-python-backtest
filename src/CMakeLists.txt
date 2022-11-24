@@ -68,3 +68,14 @@ set_target_properties(simple_thread_pool
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+add_subdirectory(extern/pybind11)
+
+pybind11_add_module(simple_pybind11_test simple_pybind11_test.cpp)
+
+set_target_properties(simple_pybind11_test
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
