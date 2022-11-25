@@ -33,36 +33,52 @@ target_link_options(profitview
 )
 
 
-add_executable(read_parquet)
-target_sources(read_parquet
-    PRIVATE
-        read_parquet.cpp
-)
+# add_executable(read_parquet)
+# target_sources(read_parquet
+#     PRIVATE
+#         read_parquet.cpp
+# )
 
-target_link_libraries(read_parquet
+# target_link_libraries(read_parquet
+#     PRIVATE
+#         profitview::profitview
+# )
+
+# set_target_properties(read_parquet
+#     PROPERTIES
+#         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# )
+
+# add_executable(simple_thread_pool)
+# target_sources(simple_thread_pool
+#     PRIVATE
+#         simple_thread_pool.cpp
+# )
+
+# target_link_libraries(simple_thread_pool
+#     PRIVATE
+#         profitview::profitview
+# )
+
+# set_target_properties(simple_thread_pool
+#     PROPERTIES
+#         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+#         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+# )
+
+find_package(pybind11 REQUIRED)
+include(${pybind11_BUILD_MODULES_PATHS})
+pybind11_add_module(simple_pybind11_parquet_test simple_pybind11_parquet_test.cpp)
+
+target_link_libraries(simple_pybind11_parquet_test
     PRIVATE
         profitview::profitview
 )
 
-set_target_properties(read_parquet
-    PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-add_executable(simple_thread_pool)
-target_sources(simple_thread_pool
-    PRIVATE
-        simple_thread_pool.cpp
-)
-
-target_link_libraries(simple_thread_pool
-    PRIVATE
-        profitview::profitview
-)
-
-set_target_properties(simple_thread_pool
+set_target_properties(simple_pybind11_parquet_test
     PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
