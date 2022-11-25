@@ -1,5 +1,5 @@
 [build_requires]
-cmake/3.24.0
+cmake/3.25.0
 
 [requires]
 arrow/10.0.0
