@@ -15,6 +15,37 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
-add_subdirectory(apps)
-add_subdirectory(lib)
-add_subdirectory(tests)
+add_library(profitview INTERFACE)
+add_library(profitview::profitview ALIAS profitview)
+target_sources(profitview
+    INTERFACE
+        enum.hpp
+        format.hpp
+        program_options.hpp
+)
+
+target_include_directories(profitview
+    INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(profitview
+    INTERFACE
+        arrow::arrow
+        arrow::parquet
+        Boost::boost
+        Boost::log
+        Boost::program_options
+        fmt::fmt
+        range-v3::range-v3
+)
+
+target_compile_options(profitview
+    INTERFACE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>
+)
+
+target_link_options(profitview
+    INTERFACE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++ -lc++abi>
+)

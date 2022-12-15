@@ -15,6 +15,20 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
-add_subdirectory(apps)
-add_subdirectory(lib)
-add_subdirectory(tests)
+add_executable(read_parquet)
+target_sources(read_parquet
+    PRIVATE
+        read_parquet.cpp
+)
+
+target_link_libraries(read_parquet
+    PRIVATE
+        profitview::profitview
+)
+
+set_target_properties(read_parquet
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

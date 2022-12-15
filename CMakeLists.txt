@@ -26,12 +26,16 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
 
-find_package(Boost REQUIRED)
-find_package(fmt REQUIRED)
 find_package(Arrow REQUIRED)
+find_package(Boost REQUIRED)
+find_package(Catch2 REQUIRED)
+find_package(fmt REQUIRED)
+find_package(range-v3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+enable_testing()
 
 add_subdirectory(src)

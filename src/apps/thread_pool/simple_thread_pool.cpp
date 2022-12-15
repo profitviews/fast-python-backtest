@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 {
     using namespace profitview;
     ProgramArgs options;
-    auto const result = parseProgramOptions(argc, argv, options);
+    auto const result = parseProgramOptions(argc, argv, HelpDocumentation{}, options);
     if (result)
         return result.value();
 
