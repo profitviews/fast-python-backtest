@@ -17,11 +17,6 @@ target_link_libraries(profitview
         fmt::fmt
 )
 
-target_compile_definitions(profitview
-    INTERFACE
-        PARQUET_STATIC # Workaround required until this PR is merged: https://github.com/conan-io/conan-center-index/pull/14376
-)
-
 target_compile_options(profitview
     INTERFACE
         $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>
