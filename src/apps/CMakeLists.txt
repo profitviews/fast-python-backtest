@@ -16,3 +16,4 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 ]]
 
 add_subdirectory(read_parquet)
+add_subdirectory(thread_pool)

@@ -37,6 +37,7 @@ target_link_libraries(profitview
         Boost::log
         Boost::program_options
         fmt::fmt
+        range-v3::range-v3
 )
 
 target_compile_options(profitview

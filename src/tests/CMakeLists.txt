@@ -15,6 +15,28 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
-add_subdirectory(apps)
-add_subdirectory(lib)
-add_subdirectory(tests)
+add_executable(profitview_tests)
+target_sources(profitview_tests
+    PRIVATE
+        redirect_stream.hpp
+        program_options.tests.cpp
+)
+
+target_link_libraries(profitview_tests
+    PRIVATE
+        profitview::profitview
+        Catch2::Catch2
+)
+
+set_target_properties(profitview_tests
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+add_test(
+    NAME profitview_tests
+    COMMAND profitview_tests
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
