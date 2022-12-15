@@ -14,28 +14,38 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
-cmake_minimum_required(VERSION 3.22)
 
-project(fast-python-backtest
-    VERSION 0.0.1
-    DESCRIPTION "An example project demonstrating how to bind python to C++"
-    LANGUAGES CXX
+add_library(profitview INTERFACE)
+add_library(profitview::profitview ALIAS profitview)
+target_sources(profitview
+    INTERFACE
+        enum.hpp
+        format.hpp
+        program_options.hpp
 )
 
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+target_include_directories(profitview
+    INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+target_link_libraries(profitview
+    INTERFACE
+        arrow::arrow
+        arrow::parquet
+        Boost::boost
+        Boost::log
+        Boost::program_options
+        fmt::fmt
+        range-v3::range-v3
+)
 
-find_package(Arrow REQUIRED)
-find_package(Boost REQUIRED)
-find_package(Catch2 REQUIRED)
-find_package(fmt REQUIRED)
-find_package(range-v3 REQUIRED)
+target_compile_options(profitview
+    INTERFACE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>
+)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-enable_testing()
-
-add_subdirectory(src)
+target_link_options(profitview
+    INTERFACE
+        $<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++ -lc++abi>
+)

@@ -1,4 +1,4 @@
-#[[
+/*
 Copyright 2022 Profitview
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -13,29 +13,39 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-]]
-cmake_minimum_required(VERSION 3.22)
+*/
+#pragma once
 
-project(fast-python-backtest
-    VERSION 0.0.1
-    DESCRIPTION "An example project demonstrating how to bind python to C++"
-    LANGUAGES CXX
-)
+#if __has_include(<version>)
+#    include <version>
+#else
+#    include <ciso646>
+#endif
 
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+#if __has_include(<ranges>)
+#    include <ranges>
+#endif
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+#if (__cpp_lib_ranges >= 202110L)
+#    include <algorithm>
+#    include <iterator>
+namespace profitview
+{
+namespace ranges = std::ranges;
+}
 
-find_package(Arrow REQUIRED)
-find_package(Boost REQUIRED)
-find_package(Catch2 REQUIRED)
-find_package(fmt REQUIRED)
-find_package(range-v3 REQUIRED)
+namespace std::ranges
+{
+using std::back_inserter;    // https://github.com/ericniebler/range-v3/issues/867
+}
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-enable_testing()
-
-add_subdirectory(src)
+#else
+#    include <range/v3/algorithm.hpp>
+#    include <range/v3/iterator.hpp>
+#    include <range/v3/range/access.hpp>
+#    include <range/v3/view.hpp>
+namespace profitview
+{
+namespace ranges = ::ranges;
+}
+#endif    // (__cpp_lib_ranges >= 202202L)

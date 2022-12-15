@@ -11,13 +11,14 @@
 
 #include <boost/range/irange.hpp>
 
+#include <cstdint>
 #include <filesystem>
-#include <variant>
-#include <string_view>
 #include <functional>
-#include <string>
-#include <vector>
 #include <stdexcept>
+#include <string_view>
+#include <string>
+#include <variant>
+#include <vector>
 
 using namespace profitview;
 
@@ -48,7 +49,7 @@ public:
         }
     }
 
-    using ParquetColumnTypes = std::variant<double, long, std::string_view>;
+    using ParquetColumnTypes = std::variant<double, std::int64_t, std::string_view>;
 
     std::vector<ParquetColumnTypes> column(int column_number) {
         if(0 > column_number || column_number >= schema_->num_fields())

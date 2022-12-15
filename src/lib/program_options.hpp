@@ -18,7 +18,10 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 #include "enum.hpp"
 #include "format.hpp"
+#include "print.hpp"
+#include "version.hpp"
 
+#include <boost/dll.hpp>
 #include <boost/program_options.hpp>
 #include <boost/throw_exception.hpp>
 #include <boost/log/trivial.hpp>
@@ -27,9 +30,19 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #include <filesystem>
 #include <iostream>
 #include <optional>
+#include <span>
 
 namespace profitview
 {
+
+/// \class HelpDocumentation
+///     Required information for program help documentation
+struct HelpDocumentation
+{
+    std::string_view name;
+    std::string_view synopsis;
+    std::optional<Version> version;
+};
 
 template<BoostDescribeEnum Enum>
 void validate(boost::any& v, const std::vector<std::string>& values, Enum*, int)
@@ -56,23 +69,44 @@ concept CustomProgramOptions = requires(T& t, boost::program_options::options_de
 };
 // clang-format on
 
-std::optional<int> parseProgramOptions(int argc, char* argv[], CustomProgramOptions auto&... options)
+std::optional<int> parseProgramOptions(
+    int argc, char const* const* argv, HelpDocumentation const& msgDetails, CustomProgramOptions auto&... options)
+{
+    return parseProgramOptions(
+        std::span<char const* const>{argv, static_cast<std::size_t>(argc)}, msgDetails, options...);
+}
+
+std::optional<int> parseProgramOptions(
+    std::span<char const * const> parameters, HelpDocumentation const& msgDetails, CustomProgramOptions auto&... options)
 {
     namespace po = boost::program_options;
     try
     {
-        po::options_description desc(fmt_ns::format("{}\n\nUsage: ", std::filesystem::path(argv[0]).filename().string()));
+        auto const version = (msgDetails.version) ? fmt_ns::format("version {}", *msgDetails.version) : std::string();
+        po::options_description desc(
+            fmt_ns::format("{}\n{} \n\nUsage: ", boost::dll::program_location().stem().string(), version));
 
-        desc.add_options()("help", "produce help message");
+        desc.add_options()("help,h", "Display the application help message.");
+
+        if (msgDetails.version)
+            desc.add_options()("version,v", "Display the application version.");
 
         (options.addOptions(desc), ...);
 
         po::variables_map vm;
-        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::store(po::parse_command_line(static_cast<int>(parameters.size()), parameters.data(), desc), vm);
 
         if (vm.count("help"))
         {
             std::cout << desc << "\n";
+            return 1;
+        }
+
+        if (msgDetails.version && vm.count("version"))
+        {
+            auto const ouput =
+                fmt_ns::format("{} {}", boost::dll::program_location().stem().string(), *msgDetails.version);
+            print_ns::print("{}", ouput);
             return 1;
         }
 
