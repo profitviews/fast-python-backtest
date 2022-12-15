@@ -15,23 +15,4 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
-add_subdirectory(apps)
-add_subdirectory(lib)
-
-add_executable(simple_thread_pool)
-target_sources(simple_thread_pool
-    PRIVATE
-        simple_thread_pool.cpp
-)
-
-target_link_libraries(simple_thread_pool
-    PRIVATE
-        profitview::profitview
-)
-
-set_target_properties(simple_thread_pool
-    PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
+add_subdirectory(read_parquet)
