@@ -17,10 +17,10 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 
 add_subdirectory(apps)
-add_subdirectory(extern/pybind11)
 add_subdirectory(lib)
 add_subdirectory(tests)
 
+include(pybind11Common)
 pybind11_add_module(simple_pybind11_test simple_pybind11_test.cpp)
 
 set_target_properties(simple_pybind11_test

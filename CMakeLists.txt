@@ -30,6 +30,7 @@ find_package(Arrow REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Catch2 REQUIRED)
 find_package(fmt REQUIRED)
+find_package(pybind11 REQUIRED)
 find_package(range-v3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 23)
