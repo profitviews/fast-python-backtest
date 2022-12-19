@@ -26,6 +26,13 @@ target_link_libraries(parquet_table
         profitview::profitview
 )
 
+find_package (Python3 REQUIRED COMPONENTS Interpreter Development)
+
+target_link_libraries(parquet_table
+    PRIVATE
+        Python::Python
+)
+
 set_target_properties(parquet_table
     PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
