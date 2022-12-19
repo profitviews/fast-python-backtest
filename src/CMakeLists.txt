@@ -30,7 +30,7 @@ find_package (Python3 REQUIRED COMPONENTS Interpreter Development)
 
 target_link_libraries(parquet_table
     PRIVATE
-        Python::Python
+        Python3::Python
 )
 
 set_target_properties(parquet_table
