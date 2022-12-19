@@ -11,7 +11,6 @@
 
 #include <boost/range/irange.hpp>
 
-#include <cstdint>
 #include <filesystem>
 #include <functional>
 #include <stdexcept>
@@ -21,6 +20,9 @@
 #include <vector>
 
 using namespace profitview;
+using namespace profitview::print_ns;
+using namespace arrow;
+using namespace arrow::io;
 
 class ParquetTable {
 public:
@@ -29,12 +31,12 @@ public:
         if (!std::filesystem::exists(file_name))
             throw std::runtime_error("Enable to find file");
 
-        std::shared_ptr<arrow::io::ReadableFile> infile;
-        PARQUET_ASSIGN_OR_THROW(infile, arrow::io::ReadableFile::Open(file_name));
+        std::shared_ptr<ReadableFile> infile;
+        PARQUET_ASSIGN_OR_THROW(infile, ReadableFile::Open(file_name));
 
         std::unique_ptr<parquet::arrow::FileReader> reader;
         PARQUET_THROW_NOT_OK(parquet::arrow::OpenFile(
-            infile, arrow::default_memory_pool(), &reader));
+            infile, default_memory_pool(), &reader));
 
         PARQUET_THROW_NOT_OK(reader->ReadTable(&table_));
 
@@ -74,38 +76,38 @@ public:
                 { result.emplace_back(d); });
 
             for(const auto& chunk: chunks) 
-                if(chunk->Accept(&visitor) != arrow::Status::OK()) 
+                if(chunk->Accept(&visitor) != Status::OK()) 
                     throw std::runtime_error("Accept fail");
         }
         return result; 
     }
 
 private:
-    struct ColumnVisitor : public arrow::ArrayVisitor
+    struct ColumnVisitor : public ArrayVisitor
     {
         ColumnVisitor(std::function<void(ParquetColumnTypes)> operation) 
         : operation_{operation} {}
 
-        arrow::Status Visit(const arrow::DoubleArray& array) {
+        Status Visit(const DoubleArray& array) {
             for(const auto& element: array) operation_(*element);
-            return arrow::Status::OK();
+            return Status::OK();
         }
 
-        arrow::Status Visit(const arrow::Int64Array& array) {
+        Status Visit(const Int64Array& array) {
             for(const auto& element: array) operation_(*element);
-            return arrow::Status::OK();
+            return Status::OK();
         }
 
-        arrow::Status Visit(const arrow::StringArray& array) {
+        Status Visit(const StringArray& array) {
             for(const auto& element: array) operation_(*element);
-            return arrow::Status::OK(); 
+            return Status::OK(); 
         }
 
         std::function<void(ParquetColumnTypes)> operation_;
     };
 
-    std::shared_ptr<arrow::Schema> schema_;
-    std::shared_ptr<arrow::Table> table_;
+    std::shared_ptr<Schema> schema_;
+    std::shared_ptr<Table> table_;
 };
 
 namespace py = pybind11; 
