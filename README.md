@@ -2,6 +2,7 @@
 
  [![Build](https://github.com/profitviews/fast-python-backtest/actions/workflows/cmake.yml/badge.svg)](https://github.com/profitviews/fast-python-backtest/actions)
  [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/profitviews/fast-python-backtest/master/LICENSE.MIT)
+ [![codecov](https://codecov.io/gh/profitviews/fast-python-backtest/branch/main/graph/badge.svg?token=1JmtZA8soP)](https://codecov.io/gh/profitviews/fast-python-backtest)
 
 <img src="/assets/images/fast-python.png" style="width:500px"> 
 
