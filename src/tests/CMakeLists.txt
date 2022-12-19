@@ -18,6 +18,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 add_executable(profitview_tests)
 target_sources(profitview_tests
     PRIVATE
+        enum.tests.cpp
+        logging.hpp
         redirect_stream.hpp
         program_options.tests.cpp
 )

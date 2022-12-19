@@ -23,6 +23,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #include <string_view>
 #include <type_traits>
 
+#include "format.hpp"
+
 namespace profitview
 {
 
@@ -62,3 +64,19 @@ auto fromString(std::string_view const value)
 }
 
 }    // namespace profitview
+
+template<profitview::BoostDescribeEnum Enum>
+struct profitview::fmt_ns::formatter<Enum>
+{
+    template<typename Context>
+    constexpr auto parse(Context& context)
+    {
+        return std::begin(context);
+    }
+
+    template<typename Context>
+    constexpr auto format(Enum const& value, Context& context) const
+    {
+        return profitview::fmt_ns::format_to(context.out(), "{}", toString(value));
+    }
+};

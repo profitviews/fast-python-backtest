@@ -95,6 +95,10 @@ function(enable_code_coverage)
 
     cmake_parse_arguments(COVERAGE "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
+    if(NOT ENABLE_CODE_COVERAGE)
+        return()
+    endif()
+
     get_filename_component(COMPILER_PATH "${CMAKE_CXX_COMPILER}" PATH)
     find_program(GCOV_BIN gcov HINTS ${COMPILER_PATH})
     if(NOT GCOV_BIN)

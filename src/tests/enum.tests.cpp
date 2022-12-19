@@ -14,18 +14,42 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#pragma once
+#include "enum.hpp"
 
-#include <boost/log/core.hpp>
+#include <catch2/catch.hpp>
+#include <boost/describe/enum.hpp>
 
 namespace profitview
 {
 
-struct LoggingFixture
+enum Colours
 {
-    LoggingFixture() { boost::log::core::get()->set_logging_enabled(false); }
-
-    ~LoggingFixture() { boost::log::core::get()->set_logging_enabled(true); }
+    Green,
+    Yellow,
+    Red
 };
 
-}    // namespace profitview
+BOOST_DESCRIBE_ENUM(Colours, Green, Yellow, Red);
+
+TEST_CASE("Ensure enums are convertable to string", "[enum.to_string]")
+{
+    REQUIRE(toString(Green) == "Green");
+    REQUIRE(toString(Yellow) == "Yellow");
+    REQUIRE(toString(Red) == "Red");
+}
+
+TEST_CASE("Ensure enums are convertable from string", "[enum.from_string]")
+{
+    REQUIRE(fromString<Colours>("Green") == Green);
+    REQUIRE(fromString<Colours>("GREEN") == Green);
+    REQUIRE(fromString<Colours>("GrEeN") == Green);
+    REQUIRE(fromString<Colours>("yellow") == Yellow);
+    REQUIRE(fromString<Colours>("YELLOW") == Yellow);
+    REQUIRE(fromString<Colours>("yElLoW") == Yellow);
+    REQUIRE(fromString<Colours>("Red") == Red);
+    REQUIRE(fromString<Colours>("rEd") == Red);
+    REQUIRE(fromString<Colours>("RED") == Red);
+    REQUIRE(!fromString<Colours>("Invalid"));
+}
+
+}
