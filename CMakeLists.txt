@@ -32,6 +32,8 @@ find_package(Catch2 REQUIRED)
 find_package(fmt REQUIRED)
 find_package(range-v3 REQUIRED)
 
+include(coverage)
+
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -39,3 +41,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 enable_testing()
 
 add_subdirectory(src)
+
+enable_code_coverage()
