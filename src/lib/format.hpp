@@ -1,4 +1,4 @@
-#[[
+/*
 Copyright 2022 Profitview
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -13,30 +13,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-]]
-cmake_minimum_required(VERSION 3.22)
+*/
+#pragma once
 
-project(fast-python-backtest
-    VERSION 0.0.1
-    DESCRIPTION "An example project demonstrating how to bind python to C++"
-    LANGUAGES CXX
-)
+#if __has_include(<version>)
+#   include <version>
+#else
+#   include <ciso646>
+#endif
 
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+#if __has_include(<format>)
+#include <format>
+#endif
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
-
-find_package(Arrow REQUIRED)
-find_package(Boost REQUIRED)
-find_package(Catch2 REQUIRED)
-find_package(fmt REQUIRED)
-find_package(pybind11 REQUIRED)
-find_package(range-v3 REQUIRED)
-
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-enable_testing()
-
-add_subdirectory(src)
+#if (__cpp_lib_format >= 201907L)
+namespace profitview { namespace fmt_ns = std; }
+#else
+#   include <fmt/format.h>
+#   include <fmt/ostream.h>
+namespace profitview { namespace fmt_ns = fmt; }
+#endif

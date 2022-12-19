@@ -14,29 +14,29 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
-cmake_minimum_required(VERSION 3.22)
 
-project(fast-python-backtest
-    VERSION 0.0.1
-    DESCRIPTION "An example project demonstrating how to bind python to C++"
-    LANGUAGES CXX
+add_executable(profitview_tests)
+target_sources(profitview_tests
+    PRIVATE
+        redirect_stream.hpp
+        program_options.tests.cpp
 )
 
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+target_link_libraries(profitview_tests
+    PRIVATE
+        profitview::profitview
+        Catch2::Catch2
+)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
+set_target_properties(profitview_tests
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
 
-find_package(Arrow REQUIRED)
-find_package(Boost REQUIRED)
-find_package(Catch2 REQUIRED)
-find_package(fmt REQUIRED)
-find_package(pybind11 REQUIRED)
-find_package(range-v3 REQUIRED)
+add_test(
+    NAME profitview_tests
+    COMMAND profitview_tests
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-enable_testing()
-
-add_subdirectory(src)

@@ -1,12 +1,14 @@
 [build_requires]
-cmake/3.24.0
+cmake/3.25.0
 
 [requires]
 arrow/10.0.0
-
 boost/1.80.0
+catch2/2.13.9
 fmt/9.1.0
 openssl/1.1.1s
+range-v3/0.12.0
+pybind11/2.10.1
 
 [generators]
 cmake_find_package
