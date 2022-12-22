@@ -18,3 +18,24 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 add_subdirectory(apps)
 add_subdirectory(lib)
 add_subdirectory(tests)
+
+pybind11_add_module(parquet_table parquet_table.cpp)
+
+target_link_libraries(parquet_table
+    PRIVATE
+        profitview::profitview
+)
+
+find_package (Python3 REQUIRED COMPONENTS Interpreter Development)
+
+target_link_libraries(parquet_table
+    PRIVATE
+        Python3::Python
+)
+
+set_target_properties(parquet_table
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
