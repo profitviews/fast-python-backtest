@@ -22,6 +22,8 @@ project(fast-python-backtest
     LANGUAGES CXX
 )
 
+include(FetchContent)
+
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake )
@@ -30,7 +32,13 @@ find_package(Arrow REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Catch2 REQUIRED)
 find_package(fmt REQUIRED)
-find_package(pybind11 REQUIRED)
+# find_package(pybind11 REQUIRED)
+FetchContent_Declare(
+        pybind11
+        GIT_REPOSITORY https://github.com/pybind/pybind11.git
+    )
+FetchContent_MakeAvailable(pybind11)
+
 find_package(range-v3 REQUIRED)
 
 include(coverage)

@@ -30,7 +30,7 @@ find_package (Python3 REQUIRED COMPONENTS Interpreter Development)
 
 target_link_libraries(parquet_table
     PRIVATE
-        Python3::Python
+        Python3::Module
 )
 
 set_target_properties(parquet_table
@@ -38,4 +38,5 @@ set_target_properties(parquet_table
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+        POSITION_INDEPENDENT_CODE ON
 )
