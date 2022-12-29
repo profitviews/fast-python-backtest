@@ -65,5 +65,11 @@ Linux or MacOS.  See [here](https://github.com/profitviews/fast-python-backtest/
    cmake --build .
    ```
 
-This will create (with debugging symbols):
+5. This will create (with debugging symbols):
+   ```
+   parquet_table.cpython-310-x86_64-linux-gnu.so
+   ```
+   
+6. Open `parquet_table.ipynb` in a Jupyter notebook
 
+7. The cells in `parquet_table.ipynb` should now function
